@@ -33,7 +33,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper {
 
 
     private static final String SQL_CREATE_TABLE_SETTINGS =
-            "CREATE TABLE " + GameDataSchema.SettingsTable.NAME +
+            "CREATE TABLE IF NOT EXISTS " + GameDataSchema.SettingsTable.NAME +
                     " (" +
                     GameDataSchema.SettingsTable.Cols.CITY_NAME + " TEXT, " +
                     GameDataSchema.SettingsTable.Cols.MAP_WIDTH + " INTEGER, " +
@@ -49,13 +49,13 @@ public class GameDataDbHelper extends SQLiteOpenHelper {
                     GameDataSchema.SettingsTable.Cols.ROAD_BUILDING_COST + " INTEGER)";
 
     private static final String SQL_CREATE_TABLE_GAME_DATA =
-            "CREATE TABLE " + GameDataSchema.GameDataTable.NAME +
+            "CREATE TABLE IF NOT EXISTS " + GameDataSchema.GameDataTable.NAME +
                     " (" +
                     GameDataSchema.GameDataTable.Cols.GAME_TIME + " INTEGER, " +
                     GameDataSchema.GameDataTable.Cols.MONEY + " INTEGER)";
 
     private static final String SQL_CREATE_TABLE_MAP_ELEMENTS =
-            "CREATE TABLE " + GameDataSchema.MapElementsTable.NAME +
+            "CREATE TABLE IF NOT EXISTS " + GameDataSchema.MapElementsTable.NAME +
                     " (" +
                     GameDataSchema.MapElementsTable.Cols.OWNER + " TEXT, " +
                     GameDataSchema.MapElementsTable.Cols.IMAGE + " BLOB, " +
