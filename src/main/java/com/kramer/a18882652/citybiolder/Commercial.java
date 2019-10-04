@@ -12,5 +12,9 @@ package com.kramer.a18882652.citybiolder;
         {
             return imageId;
         }
+        @Override
+        public void setImageID(int imageID) {
+            this.imageId = imageID;
+        }
 
     }

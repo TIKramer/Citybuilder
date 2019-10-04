@@ -1,22 +1,23 @@
 package com.kramer.a18882652.citybiolder;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-public class MapAdapter extends RecyclerView.Adapter<MapAdapter.GridHolder>
+import java.util.List;
+
+public class SelectorAdapter extends RecyclerView.Adapter<SelectorAdapter.StructureHolder>
 {
 
-    private MapElement[][] elements;
+    private List<Structure> elements;
     private Activity activity;
-    public class GridHolder extends RecyclerView.ViewHolder
+    public class StructureHolder extends RecyclerView.ViewHolder
     {
         public ImageView imageView;
-        public GridHolder( View view )
+        public StructureHolder(View view )
         {
             super(view);
             imageView = (ImageView) view.findViewById(R.id.imageView);
@@ -35,7 +36,7 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.GridHolder>
 
         public void saveData(Structure structure)
         {
-            MapAdapter.this.updateImage(this.getAdapterPosition(), structure);
+            SelectorAdapter.this.updateImage(this.getAdapterPosition(), structure);
         }
 
 
@@ -49,22 +50,20 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.GridHolder>
     }
 
     private void updateImage(int adapterPosition, Structure structure) {
-        int row = adapterPosition % 15;
-        int col = adapterPosition/ 15;
-        elements[row][col].setStructure(structure);
+
 
     }
 
 
 
-    public MapAdapter(Activity activity, MapElement[][] elements)
+    public SelectorAdapter(Activity activity, List<Structure> elements)
     {
         this.elements = elements;
         this.activity = activity;
     }
 
     @Override
-    public MapAdapter.GridHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    public StructureHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View view;
 
@@ -73,22 +72,28 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.GridHolder>
         view.getLayoutParams().height = parent.getMeasuredHeight() / 15;
 
 
-        return new MapAdapter.GridHolder(view);
+        return new StructureHolder(view);
 
     }
 
     @Override
-    public void onBindViewHolder(GridHolder vh, int index)
+    public void onBindViewHolder(StructureHolder vh, int index)
     {
-        int row = index % 15;
-        int col = index/ 15;
-        vh.bind(elements[row][col]);
+
+        vh.bind(elements.get(index));
     }
 
 
     @Override
     public int getItemCount()
     {
-        return elements.length * elements[0].length;
+        return elements.size();
+    }
+
+
+    public void setData(List<Structure> eleemnts)
+    {
+        this.elements = elements;
+        notifyDataSetChanged();
     }
 }

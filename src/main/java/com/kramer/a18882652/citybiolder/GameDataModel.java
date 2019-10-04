@@ -18,23 +18,52 @@ public class GameDataModel
 
     private GameDataModel(Context context)
     {
-        map = new MapElement[1][1];
+        map = new MapElement[15][30];
+        for(int i = 0; i < 15; i++) {
+            for (int j = 0; j < 30; j++)
+            {
+                map[i][j] = new MapElement(StructureData.getGameData().getRoad(1), null,"Thomas");
+            }
+        }
         load(context);
 
+    }
+
+    public MapElement[][] getMap()
+    {
+        return  map;
     }
 
     private void load(Context context)
     {
 
         this.db = new GameDataDbHelper(context.getApplicationContext()).getWritableDatabase();
-       // MapElement element = new MapElement(StructureData.getGameData().getRoad(1), null, "Thomas");
-       // MapElement element2 = new MapElement(StructureData.getGameData().getRoad(2), null, "Thomas");
-     //   map[0][0] = element;
-      //  map[0][1] = element2;
-       // map[1][0] = element;
-      //  map[1][1] = element2;
+
+        loadSettings();
 
 
+    }
+
+    private void loadSettings()
+    {
+        SettingCursor cursor = new SettingCursor(
+                db.query(SettingsTable.NAME,null,null,null,null,null,null)
+        );
+
+        try
+        {
+            if(cursor.getCount() != 0) {
+                cursor.moveToFirst();
+                settings = cursor.getSettings();
+            }
+            else
+            {
+                settings = SettingsModel.getSettings();
+            }
+        }
+        finally {
+            cursor.close();
+        }
     }
 
     public static GameDataModel getGameData(Context context)
@@ -52,16 +81,16 @@ public class GameDataModel
         cv.put(SettingsTable.Cols.MAP_WIDTH,  settings.get(SettingsTable.Cols.MAP_WIDTH).getData().toString());
         cv.put(SettingsTable.Cols.MAP_HEIGHT, settings.get(SettingsTable.Cols.MAP_HEIGHT).getData().toString());
         cv.put(SettingsTable.Cols.INITIAL_MONEY,  settings.get(SettingsTable.Cols.INITIAL_MONEY).getData().toString());
-        cv.put(SettingsTable.Cols.FAMILY_SIZE, settings.get(SettingsTable.Cols.FAMILY_SIZE).toString());
-        cv.put(SettingsTable.Cols.SHOP_SIZE,  settings.get(SettingsTable.Cols.SHOP_SIZE).toString());
-        cv.put(SettingsTable.Cols.SALARY, settings.get(SettingsTable.Cols.SALARY).toString());
-        cv.put(SettingsTable.Cols.TAX_RATE,  settings.get(SettingsTable.Cols.TAX_RATE).toString());
+        cv.put(SettingsTable.Cols.FAMILY_SIZE, settings.get(SettingsTable.Cols.FAMILY_SIZE).getData().toString());
+        cv.put(SettingsTable.Cols.SHOP_SIZE,  settings.get(SettingsTable.Cols.SHOP_SIZE).getData().toString());
+        cv.put(SettingsTable.Cols.SALARY, settings.get(SettingsTable.Cols.SALARY).getData().toString());
+        cv.put(SettingsTable.Cols.TAX_RATE,  settings.get(SettingsTable.Cols.TAX_RATE).getData().toString());
         cv.put(SettingsTable.Cols.SERVICE_COST,  settings.get(SettingsTable.Cols.SERVICE_COST).getData().toString());
         cv.put(SettingsTable.Cols.HOUSE_BUILDING_COST, settings.get(SettingsTable.Cols.HOUSE_BUILDING_COST).getData().toString());
         cv.put(SettingsTable.Cols.COMM_BUILDING_COST, settings.get(SettingsTable.Cols.COMM_BUILDING_COST).getData().toString());
-        cv.put(SettingsTable.Cols.COMM_BUILDING_COST,  settings.get(SettingsTable.Cols.COMM_BUILDING_COST).getData().toString());
-
-        this.db.replace(SettingsTable.NAME,null,cv);
+        cv.put(SettingsTable.Cols.ROAD_BUILDING_COST,  settings.get(SettingsTable.Cols.ROAD_BUILDING_COST).getData().toString());
+        db.execSQL("delete from "+ SettingsTable.NAME);
+        this.db.insert(SettingsTable.NAME,null,cv);
     }
 
     public void setSettings(Map<String, Setting> settings)

@@ -21,7 +21,17 @@ public class MapElement
         return structure!=null;
     }
 
+    public void setBitmap(Bitmap image)
+    {
+        this.image = image;
+    }
+
     public Structure getStructure() {
         return structure;
     }
+    public void setStructure(Structure structure) {
+
+         this.structure = structure;
+    }
+
 }

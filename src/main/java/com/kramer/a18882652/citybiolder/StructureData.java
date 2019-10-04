@@ -67,5 +67,10 @@ public class StructureData {
     {
         return roads.get(i);
     }
+    public Residential getResidential(int i)
+    {
+        return residential.get(i);
+    }
+
 }
 

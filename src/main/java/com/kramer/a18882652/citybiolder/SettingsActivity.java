@@ -20,7 +20,7 @@ public class SettingsActivity extends AppCompatActivity {
         //use  GridLayout manager
         recView.setLayoutManager(new LinearLayoutManager(SettingsActivity.this));
 
-        recView.setAdapter(new SettingsAdapter(this, SettingsModel.getSettings()));
+        recView.setAdapter(new SettingsAdapter(this, GameDataModel.getGameData(this).getSettings()));
 
     }
 }

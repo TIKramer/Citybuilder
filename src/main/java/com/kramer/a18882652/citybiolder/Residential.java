@@ -12,5 +12,9 @@ public class Residential implements Structure
     {
         return imageId;
     }
+    @Override
+    public void setImageID(int imageID) {
+        this.imageId = imageID;
+    }
 
 }

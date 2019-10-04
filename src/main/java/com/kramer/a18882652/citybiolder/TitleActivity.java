@@ -30,5 +30,14 @@ public class TitleActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button mapBtn = findViewById(R.id.mapBtn);
+        mapBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(TitleActivity.this, GameActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

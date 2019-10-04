@@ -13,4 +13,8 @@ public class Road implements Structure
         return imageId;
     }
 
+    @Override
+    public void setImageID(int imageID) {
+        this.imageId = imageID;
+    }
 }

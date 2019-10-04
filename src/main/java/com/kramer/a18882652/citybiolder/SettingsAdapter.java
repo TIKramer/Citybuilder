@@ -32,7 +32,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
 
-        public SettingSaveVHolder(@NonNull View itemView)
+        public SettingSaveVHolder(@NonNull final View itemView)
         {
             super(itemView);
             errorLog = (TextView) itemView.findViewById(R.id.errorLog);
@@ -42,6 +42,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 @Override
                 public void onClick(View view) {
                     GameDataModel model = GameDataModel.getGameData(activity);
+                    activity.getCurrentFocus().clearFocus();
                   model.setSettings(settings);
                 }
             });
@@ -90,7 +91,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             if(setting.isLock())
             {
-                settingValue.setEnabled(true);
+                settingValue.setEnabled(false);
             }
             settingValue.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 

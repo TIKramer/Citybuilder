@@ -30,7 +30,6 @@ public class SettingsModel {
         Setting houseBuildingcost = new Setting("House Building Cost", Setting.INTERGER);
         Setting commericalBuildingCost = new Setting("Commerical Building Cost", Setting.INTERGER);
         Setting roadBuildingcost = new Setting("Road Building Cost", Setting.INTERGER);
-        cityName.setLock(true);
         settings.put(SettingsTable.Cols.CITY_NAME, cityName);
         settings.put(SettingsTable.Cols.MAP_WIDTH, map_width);
         settings.put(SettingsTable.Cols.MAP_HEIGHT, mapHeight);
@@ -58,13 +57,18 @@ public class SettingsModel {
         return newGame;
     }
 
-    public void addData(String settingName, Object data)
+    public static void addData(String settingName, Object data)
     {
         settings.get(settingName).setData(data);
     }
-    public String getData(String settingName)
+    public static String getData(String settingName)
     {
         return (String) settings.get(settingName).getData();
+    }
+
+    public static void lock(String settingName)
+    {
+          settings.get(settingName).setLock(true);
     }
     public static Map<String, Setting> getSettings()
     {
