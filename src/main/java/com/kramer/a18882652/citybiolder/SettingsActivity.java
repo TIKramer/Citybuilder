@@ -16,7 +16,6 @@ public class SettingsActivity extends AppCompatActivity {
         RecyclerView recView = (RecyclerView) findViewById(R.id.settingsRecycler);
 
 
-        recView.setHasFixedSize(true);
         //use  GridLayout manager
         recView.setLayoutManager(new LinearLayoutManager(SettingsActivity.this));
 

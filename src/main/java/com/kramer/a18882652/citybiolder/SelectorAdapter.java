@@ -1,6 +1,9 @@
 package com.kramer.a18882652.citybiolder;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipDescription;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,54 +15,73 @@ import java.util.List;
 public class SelectorAdapter extends RecyclerView.Adapter<SelectorAdapter.StructureHolder>
 {
 
-    private List<Structure> elements;
+    private List<? extends Structure> elements;
     private Activity activity;
+    private int structureType;
     public class StructureHolder extends RecyclerView.ViewHolder
     {
+        View view;
+        private String msg;
         public ImageView imageView;
-        public StructureHolder(View view )
+        public StructureHolder(@NonNull final View view )
         {
             super(view);
-            imageView = (ImageView) view.findViewById(R.id.imageView);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Structure structure = StructureData.getGameData().getResidential(2);
-                    imageView.setImageResource(structure.getImageID());
-                    saveData(structure);
+            imageView = (ImageView) view.findViewById(R.id.strucutreImage);
+            this.view = view;
+            // Sets the tag
+            imageView.setTag("structure:");
+
+
+
+// Sets a long click listener for the ImageView using an anonymous listener object that
+// implements the OnLongClickListener interface
+            imageView.setOnLongClickListener(new View.OnLongClickListener() {
+
+                // Defines the one method for the interface, which is called when the View is long-clicked
+                public boolean onLongClick(View v) {
+
+                    ClipData.Item item = new ClipData.Item("" + structureType);
+                    ClipData.Item item2 = new ClipData.Item("" + getAdapterPosition());
+
+                    String[] mimeTypes = {ClipDescription.MIMETYPE_TEXT_PLAIN};
+
+                    ClipData dragData = new ClipData(imageView.getTag().toString(),mimeTypes, item);
+                    dragData.addItem(item2);
+                    View.DragShadowBuilder myShadow = new View.DragShadowBuilder(imageView);
+
+                    v.startDrag(dragData,myShadow,null,0);
+                    return true;
+
 
                 }
             });
 
 
+
+
+
+
+
+
         }
 
-        public void saveData(Structure structure)
-        {
-            SelectorAdapter.this.updateImage(this.getAdapterPosition(), structure);
+
+
+
+
+        public void bind(Structure element) {
+                imageView.setImageResource(element.getImageID());
+
         }
-
-
-
-
-        public void bind(MapElement element) {
-            if(element.getStructure().getImageID() != 0) {
-                imageView.setImageResource(element.getStructure().getImageID());
-            }
-        }
-    }
-
-    private void updateImage(int adapterPosition, Structure structure) {
-
-
     }
 
 
 
-    public SelectorAdapter(Activity activity, List<Structure> elements)
+    public SelectorAdapter(Activity activity, List<? extends Structure> elements, int structureType)
     {
         this.elements = elements;
         this.activity = activity;
+        this.structureType = structureType;
     }
 
     @Override
@@ -67,9 +89,8 @@ public class SelectorAdapter extends RecyclerView.Adapter<SelectorAdapter.Struct
     {
         View view;
 
-        view = LayoutInflater.from(activity).inflate(R.layout.fragment_grid, parent, false);
-        view.getLayoutParams().height = parent.getMeasuredHeight() / 15;
-        view.getLayoutParams().height = parent.getMeasuredHeight() / 15;
+        view = LayoutInflater.from(activity).inflate(R.layout.individual_structure_selector, parent, false);
+
 
 
         return new StructureHolder(view);
@@ -91,8 +112,9 @@ public class SelectorAdapter extends RecyclerView.Adapter<SelectorAdapter.Struct
     }
 
 
-    public void setData(List<Structure> eleemnts)
+    public void setData(List<? extends Structure> elements, int type)
     {
+        this.structureType = type;
         this.elements = elements;
         notifyDataSetChanged();
     }

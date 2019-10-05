@@ -51,7 +51,7 @@ public class StructureData {
     {
         for(int id : residentialId)
         {
-            residential.add(new Residential(id));
+            commercial.add(new Commercial(id));
         }
     }
 
@@ -63,6 +63,22 @@ public class StructureData {
         return instance;
     }
 
+    public List<Road> getRoads()
+    {
+        return roads;
+    }
+
+    public List<Residential> getResidential()
+    {
+        return residential;
+    }
+
+    public List<Commercial> getCommercial()
+    {
+        return commercial;
+    }
+
+    public Commercial getCommercial(int i){return commercial.get(i);};
     public Road getRoad(int i)
     {
         return roads.get(i);
@@ -70,6 +86,25 @@ public class StructureData {
     public Residential getResidential(int i)
     {
         return residential.get(i);
+    }
+
+
+    public Structure getByNameAndId(int type, int id)
+    {
+        Structure structure = null;
+        if(type == 0)
+            {
+                structure = getResidential(id);
+            }
+            if(type ==1)
+            {
+                structure = getCommercial(id);
+            }
+            if(type ==2)
+            {
+                structure = getRoad(id);
+            }
+            return structure;
     }
 
 }

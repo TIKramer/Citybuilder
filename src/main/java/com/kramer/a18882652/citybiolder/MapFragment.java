@@ -27,6 +27,7 @@ public class MapFragment extends android.support.v4.app.Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private MapAdapter mapAdapter;
 
 
     public MapFragment() {
@@ -49,7 +50,8 @@ public class MapFragment extends android.support.v4.app.Fragment {
             int spaceInPixels = 0;
             recView.addItemDecoration(new RecyclerViewItemDecorator(spaceInPixels));
             //set adapter
-            recView.setAdapter(new MapAdapter(getActivity(), GameDataModel.getGameData(getActivity()).getMap()));
+            mapAdapter = new MapAdapter(getActivity(), GameDataModel.getGameData(getActivity()).getMap());
+            recView.setAdapter(mapAdapter);
             return view;
         }
 
@@ -77,6 +79,14 @@ public class MapFragment extends android.support.v4.app.Fragment {
             }
         }
     }
+
+
+    public void demolishStructure(int x, int y)
+    {
+        mapAdapter.removeFromLocation(x,y);
+
+    }
+
 
 
 
