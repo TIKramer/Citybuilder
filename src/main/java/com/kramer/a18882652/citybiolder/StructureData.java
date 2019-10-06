@@ -11,6 +11,7 @@ public class StructureData {
     private List<Road> roads;
     private List<Residential> residential;
     private List<Commercial> commercial;
+    private final DefaultStructure defaultStuct = new DefaultStructure();
     private int[] roadID = {R.drawable.ic_road_e, R.drawable.ic_road_ew, R.drawable.ic_road_n, R.drawable.ic_road_ne,
                              R.drawable.ic_road_new, R.drawable.ic_road_ns, R.drawable.ic_road_nse, R.drawable.ic_road_nsew, R.drawable.ic_road_nsw};
 
@@ -61,6 +62,11 @@ public class StructureData {
             instance = new StructureData();
 
         return instance;
+    }
+
+    public DefaultStructure getDefault()
+    {
+        return defaultStuct;
     }
 
     public List<Road> getRoads()

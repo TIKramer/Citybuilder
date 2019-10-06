@@ -11,23 +11,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-/**
- * Activities that contain this fragment must implement the
- * {@link MapFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MapFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class MapFragment extends android.support.v4.app.Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class MapFragment extends android.support.v4.app.Fragment {
+
     private MapAdapter mapAdapter;
+    private MapAdapter.RecyclerViewClickListener callback;
+    MapAdapter.RoadUpdateListener roadCallBack;
+    MapAdapter.ResidentialUpdateListener residentialCallBack;
+    MapAdapter.CommercialUpdateListener commericalCallBack;
+    MapAdapter.PlayerCashCallBack cashCallBack;
 
 
     public MapFragment() {
@@ -50,10 +42,27 @@ public class MapFragment extends android.support.v4.app.Fragment {
             int spaceInPixels = 0;
             recView.addItemDecoration(new RecyclerViewItemDecorator(spaceInPixels));
             //set adapter
-            mapAdapter = new MapAdapter(getActivity(), GameDataModel.getGameData(getActivity()).getMap());
+            mapAdapter = new MapAdapter(getActivity(), GameDataModel.getGameData(getActivity()).getMap(), 0,0,0);
+            mapAdapter.setCallBack(callback);
+            mapAdapter.setCommericalCallBack(commericalCallBack);
+            mapAdapter.setResidentialCallBack(residentialCallBack);
+            mapAdapter.setRoadCallBack(roadCallBack);
+            mapAdapter.setCashCallBack(cashCallBack);
             recView.setAdapter(mapAdapter);
             return view;
         }
+
+    public void setRoadUpdateListener(MapAdapter.RoadUpdateListener roadUpdateListener) {
+        this.roadCallBack = roadUpdateListener;
+    }
+
+    public void setResidentialUpdateListener(MapAdapter.ResidentialUpdateListener residentialUpdateListener) {
+        this.residentialCallBack = residentialUpdateListener;
+    }
+
+    public void setCommercialUpdateListener(MapAdapter.CommercialUpdateListener commercialUpdateListener) {
+        this.commericalCallBack = commercialUpdateListener;
+    }
 
 
 
@@ -86,6 +95,15 @@ public class MapFragment extends android.support.v4.app.Fragment {
         mapAdapter.removeFromLocation(x,y);
 
     }
+    public void setRecyclerViewClickListener(MapAdapter.RecyclerViewClickListener callback) {
+        this.callback = callback;
+    }
+
+    public void setCashCallBack(MapAdapter.PlayerCashCallBack cashCallBack)
+    {
+        this.cashCallBack = cashCallBack;
+    }
+
 
 
 

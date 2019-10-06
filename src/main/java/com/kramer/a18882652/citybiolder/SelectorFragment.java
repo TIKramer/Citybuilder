@@ -1,8 +1,8 @@
 package com.kramer.a18882652.citybiolder;
 
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.os.Bundle;
@@ -11,14 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 
-public class SelectorFragment extends Fragment {
-    private OnHeadlineSelectedListener callback;
+public class SelectorFragment extends Fragment  {
+    private OnMapItemClickListener callback;
     private SelectorAdapter selectorAdapter;
     private StructureData data;
+    private boolean demolishMode;
+    private RecyclerView recView;
+    private Spinner s;
+
     public SelectorFragment() {
         // Required empty public constructor
     }
@@ -34,7 +38,7 @@ public class SelectorFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_selector, container, false);
 
 
-        RecyclerView recView = (RecyclerView) view.findViewById(R.id.selector_recyclerView);
+        recView = (RecyclerView) view.findViewById(R.id.selector_recyclerView);
         int spaceInPixels = 15;
         recView.addItemDecoration(new RecyclerViewItemDecorator(spaceInPixels));
         //use  GridLayout manager
@@ -50,7 +54,7 @@ public class SelectorFragment extends Fragment {
         String[] arraySpinner = new String[] {
                 "Residents", "Commerical", "Roads"
         };
-        Spinner s = (Spinner) view.findViewById(R.id.structureSelector);
+        s = (Spinner) view.findViewById(R.id.structureSelector);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_dropdown_item, arraySpinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -71,7 +75,6 @@ public class SelectorFragment extends Fragment {
                 else if(position ==2)
                 {
                     selectorAdapter.setData(data.getRoads(), 2);
-                    callback.onArticleSelected(0,0);
 
                 }
 
@@ -82,7 +85,28 @@ public class SelectorFragment extends Fragment {
             }
         });
 
+        final ImageView demolishImage = (ImageView) view.findViewById(R.id.demolishImage);
+        demolishImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                demolishMode = !demolishMode;
+                if(demolishMode)
+                {
+                    s.setEnabled(false);
+                    recView.setEnabled(false);
+                    demolishImage.setColorFilter(Color.BLUE);
+                    demolishImage.invalidate();
 
+                }
+                else
+                {
+                    s.setEnabled(true);
+                    recView.setEnabled(true);
+                    demolishImage.clearColorFilter();
+                    demolishImage.invalidate();
+                }
+            }
+        });
         return view;
 
 
@@ -111,14 +135,26 @@ public class SelectorFragment extends Fragment {
 
     }
 
-    public void setOnHeadlineSelectedListener(OnHeadlineSelectedListener callback) {
+    public void setOnMapItemClickListener(OnMapItemClickListener callback) {
         this.callback = callback;
     }
 
     // This interface can be implemented by the Activity, parent Fragment,
     // or a separate test implementation.
-    public interface OnHeadlineSelectedListener {
-        public void onArticleSelected(int x, int y);
+    public interface OnMapItemClickListener {
+        public void demolishBuilding(int x, int y);
     }
+
+
+    public void getClickLocation(int x, int y)
+    {
+        if(demolishMode)
+        {
+            callback.demolishBuilding(x,y);
+        }
+
+    }
+
+
 
 }

@@ -23,7 +23,10 @@
             android:label="@string/title_activity_test_setting" />
         <activity
             android:name=".GameActivity"
-            android:label="@string/title_activity_game"></activity>
+            android:label="@string/title_activity_game" />
+        <activity
+            android:name=".Details"
+            android:label="@string/title_activity_details"></activity>
     </application>
 
 </manifest>

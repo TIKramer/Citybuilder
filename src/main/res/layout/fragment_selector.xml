@@ -21,6 +21,23 @@
         app:layout_constraintLeft_toLeftOf="parent"
         />
 
+
+    <ImageView
+        android:id="@+id/demolishImage"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/hammer"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/selector_recyclerView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/structureSelector"
+
+
+
+
+        />
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/selector_recyclerView"
         android:layout_width="match_parent"
@@ -31,5 +48,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
 
-        />
+        >
+
+
+    </android.support.v7.widget.RecyclerView>
+
+
 </android.support.constraint.ConstraintLayout>

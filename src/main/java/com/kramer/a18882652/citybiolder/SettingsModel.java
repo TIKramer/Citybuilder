@@ -15,8 +15,30 @@ public class SettingsModel {
 
 
     private boolean newGame;
-    private static final Map<String, Setting> settings;
-    static  {
+    private  Map<String, Setting> settings;
+  private static SettingsModel instance;
+
+    public SettingsModel(Boolean isNewGame)
+    {
+        newGame = isNewGame;
+    }
+
+    private SettingsModel()
+    {
+        create();
+    }
+
+    public static SettingsModel getInstance()
+    {
+        if(instance ==null)
+        {
+           instance = new SettingsModel();
+        }
+        return instance;
+    }
+
+    private void create()
+    {
         settings = new LinkedHashMap<>();
         Setting cityName = new Setting("City Name", Setting.STRING);
         Setting map_width = new Setting("Map Width", Setting.INTERGER);
@@ -45,32 +67,25 @@ public class SettingsModel {
         settings.put(SettingsTable.Cols.ROAD_BUILDING_COST,roadBuildingcost);
     }
 
-    public SettingsModel(Boolean isNewGame)
-    {
-        newGame = isNewGame;
-    }
-
-
-
     public boolean isNewGame()
     {
         return newGame;
     }
 
-    public static void addData(String settingName, Object data)
+    public void addData(String settingName, Object data)
     {
         settings.get(settingName).setData(data);
     }
-    public static String getData(String settingName)
+    public Object getData(String settingName)
     {
-        return (String) settings.get(settingName).getData();
+        return  settings.get(settingName).getData();
     }
 
-    public static void lock(String settingName)
+    public void lock(String settingName)
     {
           settings.get(settingName).setLock(true);
     }
-    public static Map<String, Setting> getSettings()
+    public  Map<String, Setting> getSettings()
     {
         return  settings;
 

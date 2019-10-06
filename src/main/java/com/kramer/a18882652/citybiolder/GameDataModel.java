@@ -15,14 +15,20 @@ public class GameDataModel
         private int gameTime;
         private SQLiteDatabase db;
         private MapElement[][] map;
+        int nRoad;
+        int nResidential;
+        int nCommerical;
 
     private GameDataModel(Context context)
     {
+        nRoad =0;
+        nResidential =0;
+        nCommerical =0;
         map = new MapElement[15][30];
         for(int i = 0; i < 15; i++) {
             for (int j = 0; j < 30; j++)
             {
-                map[i][j] = new MapElement(StructureData.getGameData().getRoad(1), null,"Thomas");
+                map[i][j] = new MapElement(StructureData.getGameData().getDefault(), null,"Thomas");
             }
         }
         load(context);
@@ -44,6 +50,7 @@ public class GameDataModel
 
     }
 
+
     private void loadSettings()
     {
         SettingCursor cursor = new SettingCursor(
@@ -58,7 +65,7 @@ public class GameDataModel
             }
             else
             {
-                settings = SettingsModel.getSettings();
+                settings = SettingsModel.getInstance().getSettings();
             }
         }
         finally {
@@ -66,6 +73,20 @@ public class GameDataModel
         }
     }
 
+    public void changeTest()
+    {
+        nRoad =0;
+        nResidential =0;
+        nCommerical =0;
+        map = new MapElement[15][30];
+        for(int i = 0; i < 15; i++) {
+            for (int j = 0; j < 30; j++)
+            {
+                map[i][j] = new MapElement(StructureData.getGameData().getRoad(2), null,"Thomas");
+            }
+        }
+
+    }
     public static GameDataModel getGameData(Context context)
     {
         if (instance == null)
@@ -102,5 +123,43 @@ public class GameDataModel
     public Map<String, Setting>  getSettings()
     {
         return settings;
+    }
+
+
+    public String getSetting(String name)
+    {
+       return "" + settings.get(name).getData();
+    }
+
+    public void updateStructure(int x, int y, Structure structure)
+    {
+        Structure temp = map[x][y].getStructure();
+
+        if(temp instanceof Road)
+        {
+            nRoad--;
+        }
+        else if(temp instanceof  Residential)
+        {
+            nResidential--;
+        }
+        else if(temp instanceof  Commercial)
+        {
+            nCommerical--;
+        }
+
+        map[x][y].setStructure(structure);
+        if(structure instanceof Road)
+        {
+            nRoad++;
+        }
+        else if(structure instanceof  Residential)
+        {
+            nResidential++;
+        }
+        else if(structure instanceof  Commercial)
+        {
+            nCommerical++;
+        }
     }
 }

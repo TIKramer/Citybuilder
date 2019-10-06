@@ -19,6 +19,14 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.GridHolder>
 
     private MapElement[][] elements;
     private Activity activity;
+    private RecyclerViewClickListener callBack;
+   RoadUpdateListener roadCallBack;
+   ResidentialUpdateListener residentialCallBack;
+   CommercialUpdateListener commercialCallBack;
+    PlayerCashCallBack cashCallBack;
+    private int nResidential;
+    private  int nCommerical;
+    private int nRoads;
     public class GridHolder extends RecyclerView.ViewHolder
     {
         public ImageView imageView;
@@ -33,6 +41,14 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.GridHolder>
                     imageView.setImageResource(structure.getImageID());
                     saveData(structure);
 
+                }
+            });
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int row = getAdapterPosition() % 15;
+                    int col = getAdapterPosition()/ 15;
+            callBack.recyclerViewListClicked(row,col);
                 }
             });
 
@@ -107,13 +123,22 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.GridHolder>
 
 
                             // Displays a message containing the dragged data.
-                            Toast.makeText(activity, "Dragged data is " + dragData.toString() + ": " + dragData2, Toast.LENGTH_LONG).show();
+                         //   Toast.makeText(activity, "Dragged data is " + dragData.toString() + ": " + dragData2, Toast.LENGTH_LONG).show();
+                            Structure newStruct = StructureData.getGameData().getByNameAndId(Integer.parseInt(dragData.toString()), Integer.parseInt(dragData2.toString()));
 
                             // Turns off any color tints
                             imageView.clearColorFilter();
-                            Structure newStruct = StructureData.getGameData().getByNameAndId(Integer.parseInt(dragData.toString()), Integer.parseInt(dragData2.toString()));
-                            imageView.setImageResource(newStruct.getImageID());
-                            saveData(newStruct);
+                            int newCost = newStruct.getCost();
+                            if(cashCallBack.getCash() >= newStruct.getCost()) {
+
+                                imageView.setImageResource(newStruct.getImageID());
+                                saveData(newStruct);
+                            }
+                            else
+                            {
+                                Toast.makeText(activity, "Not enough funds ", Toast.LENGTH_LONG).show();
+
+                            }
                             // Invalidates the view to force a redraw
                             imageView.invalidate();
 
@@ -156,6 +181,7 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.GridHolder>
 
         public void saveData(Structure structure)
         {
+
             MapAdapter.this.updateImage(this.getAdapterPosition(), structure);
         }
 
@@ -172,16 +198,38 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.GridHolder>
     private void updateImage(int adapterPosition, Structure structure) {
         int row = adapterPosition % 15;
         int col = adapterPosition/ 15;
+        updateStructure(row, col,structure);
+
         elements[row][col].setStructure(structure);
 
     }
 
 
 
-    public MapAdapter(Activity activity, MapElement[][] elements)
+    public MapAdapter(Activity activity, MapElement[][] elements, int nResidential, int nCommerical, int nRoads)
     {
         this.elements = elements;
         this.activity = activity;
+        this.nResidential = nResidential;
+        this.nCommerical = nCommerical;
+        this.nRoads = nRoads;
+    }
+
+    public void getIntialValues()
+    {
+       /* for(MapElement element : elements)
+        if(structure instanceof Road)
+        {
+            nRoads++;
+        }
+        else if(structure instanceof  Residential)
+        {
+            nResidential++;
+        }
+        else if(structure instanceof  Commercial)
+        {
+            nCommerical++;
+        }*/
     }
 
     @Override
@@ -216,11 +264,94 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.GridHolder>
 
     public void removeFromLocation(int x, int y)
     {
-        elements[x][y].setStructure(StructureData.getGameData().getResidential(2));
+        elements[x][y].setStructure(StructureData.getGameData().getDefault());
         notifyDataSetChanged();
 
     }
 
+    public interface RecyclerViewClickListener {
+        public void recyclerViewListClicked(int x, int y);
+    }
+
+    public void setCallBack(RecyclerViewClickListener callBack)
+    {
+        this.callBack = callBack;
+    }
+
+    public void setRoadCallBack(RoadUpdateListener callBack)
+    {
+        this.roadCallBack = callBack;
+    }
+    public void setResidentialCallBack(ResidentialUpdateListener callBack)
+    {
+        this.residentialCallBack = callBack;
+    }
+    public void setCommericalCallBack(CommercialUpdateListener callBack)
+    {
+        this.commercialCallBack = callBack;
+    }
+    public void setCashCallBack(PlayerCashCallBack callBack)
+    {
+        this.cashCallBack = callBack;
+    }
+
+
+
+
+
+    public void updateStructure(int x, int y, Structure structure)
+    {
+        Structure temp = elements[x][y].getStructure();
+
+        if(temp instanceof Road)
+        {
+            nRoads--;
+        }
+        else if(temp instanceof  Residential)
+        {
+            nResidential--;
+        }
+        else if(temp instanceof  Commercial)
+        {
+            nCommerical--;
+        }
+
+        elements[x][y].setStructure(structure);
+        if(structure instanceof Road)
+        {
+            nRoads++;
+            this.roadCallBack.roadsUpdateListener(nRoads);
+        }
+        else if(structure instanceof  Residential)
+        {
+            nResidential++;
+            this.residentialCallBack.residentialUpdateListener(nResidential);
+
+        }
+        else if(structure instanceof  Commercial)
+        {
+            nCommerical++;
+            this.commercialCallBack.commercialUpdateListener(nCommerical);
+        }
+    }
+
+
+
+    public interface RoadUpdateListener {
+        public void roadsUpdateListener(int x);
+    }
+
+    public interface CommercialUpdateListener {
+        public void commercialUpdateListener(int x);
+    }
+
+    public interface ResidentialUpdateListener {
+        public void residentialUpdateListener(int x);
+    }
+
+    public interface PlayerCashCallBack{
+        public Integer getCash();
+    }
 }
 
 

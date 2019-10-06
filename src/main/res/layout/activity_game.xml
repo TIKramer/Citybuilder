@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".GameActivity">
 
+
     <fragment
         android:id="@+id/map_container"
         android:name="com.kramer.a18882652.citybiolder.MapFragment"
@@ -29,4 +30,16 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <fragment
+        android:id="@+id/userStatusContainer"
+        android:name="com.kramer.a18882652.citybiolder.UserStatusFragment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+
+        app:layout_constraintTop_toTopOf="parent"
+
+        />
 </android.support.constraint.ConstraintLayout>

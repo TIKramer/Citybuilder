@@ -13,6 +13,7 @@ public class SettingCursor extends CursorWrapper {
 
     public Map<String, Setting> getSettings()
     {
+        SettingsModel model = SettingsModel.getInstance();
 
         String name = getString(getColumnIndex(SettingsTable.Cols.CITY_NAME));
         int map_width = getInt(getColumnIndex(SettingsTable.Cols.MAP_WIDTH));
@@ -28,29 +29,29 @@ public class SettingCursor extends CursorWrapper {
 
         int roadBuildingcost = getInt(getColumnIndex(SettingsTable.Cols.ROAD_BUILDING_COST));
 
-        SettingsModel.addData(SettingsTable.Cols.CITY_NAME, name);
-        SettingsModel.addData(SettingsTable.Cols.MAP_WIDTH, map_width);
-        SettingsModel.addData(SettingsTable.Cols.MAP_HEIGHT, map_Height);
-        SettingsModel.addData(SettingsTable.Cols.INITIAL_MONEY, initialMoney);
+        model.addData(SettingsTable.Cols.CITY_NAME, name);
+        model.addData(SettingsTable.Cols.MAP_WIDTH, map_width);
+        model.addData(SettingsTable.Cols.MAP_HEIGHT, map_Height);
+        model.addData(SettingsTable.Cols.INITIAL_MONEY, initialMoney);
 
-        SettingsModel.addData(SettingsTable.Cols.FAMILY_SIZE, familySize);
-        SettingsModel.addData(SettingsTable.Cols.SHOP_SIZE, shopSize);
-        SettingsModel.addData(SettingsTable.Cols.SALARY, salary);
-        SettingsModel.addData(SettingsTable.Cols.TAX_RATE, taxRate);
-        SettingsModel.addData(SettingsTable.Cols.SERVICE_COST, serviceCost);
+        model.addData(SettingsTable.Cols.FAMILY_SIZE, familySize);
+        model.addData(SettingsTable.Cols.SHOP_SIZE, shopSize);
+        model.addData(SettingsTable.Cols.SALARY, salary);
+        model.addData(SettingsTable.Cols.TAX_RATE, taxRate);
+        model.addData(SettingsTable.Cols.SERVICE_COST, serviceCost);
 
-        SettingsModel.addData(SettingsTable.Cols.HOUSE_BUILDING_COST, houseBuildingcost);
-        SettingsModel.addData(SettingsTable.Cols.COMM_BUILDING_COST, commericalBuildingCost);
-        SettingsModel.addData(SettingsTable.Cols.ROAD_BUILDING_COST, roadBuildingcost);
-
-
-
-        SettingsModel.lock(SettingsTable.Cols.INITIAL_MONEY);
-        SettingsModel.lock(SettingsTable.Cols.MAP_WIDTH);
-        SettingsModel.lock(SettingsTable.Cols.MAP_HEIGHT);
+        model.addData(SettingsTable.Cols.HOUSE_BUILDING_COST, houseBuildingcost);
+        model.addData(SettingsTable.Cols.COMM_BUILDING_COST, commericalBuildingCost);
+        model.addData(SettingsTable.Cols.ROAD_BUILDING_COST, roadBuildingcost);
 
 
-        return  SettingsModel.getSettings();
+
+        model.lock(SettingsTable.Cols.INITIAL_MONEY);
+        model.lock(SettingsTable.Cols.MAP_WIDTH);
+        model.lock(SettingsTable.Cols.MAP_HEIGHT);
+
+
+        return  model.getSettings();
 
 
 
