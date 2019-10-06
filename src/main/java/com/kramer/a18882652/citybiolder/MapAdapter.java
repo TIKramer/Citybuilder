@@ -27,6 +27,8 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.GridHolder>
     private int nResidential;
     private  int nCommerical;
     private int nRoads;
+    private boolean demolishion;
+    private final Structure defaultStructure = StructureData.getGameData().getDefault();
     public class GridHolder extends RecyclerView.ViewHolder
     {
         public ImageView imageView;
@@ -46,9 +48,12 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.GridHolder>
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int row = getAdapterPosition() % 15;
-                    int col = getAdapterPosition()/ 15;
-            callBack.recyclerViewListClicked(row,col);
+                    if(demolishion) {
+                        int row = getAdapterPosition() % 15;
+                        int col = getAdapterPosition() / 15;
+                        removeFromLocation(row, col);
+                        imageView.setImageResource(defaultStructure.getImageID());
+                    }
                 }
             });
 
@@ -264,8 +269,7 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.GridHolder>
 
     public void removeFromLocation(int x, int y)
     {
-        elements[x][y].setStructure(StructureData.getGameData().getDefault());
-        notifyDataSetChanged();
+        elements[x][y].setStructure(defaultStructure);
 
     }
 
@@ -333,6 +337,15 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.GridHolder>
             nCommerical++;
             this.commercialCallBack.commercialUpdateListener(nCommerical);
         }
+    }
+
+    public void setDemolishion()
+    {
+        demolishion = true;
+    }
+    public void removeDemloish()
+    {
+        demolishion = false;
     }
 
 

@@ -146,7 +146,7 @@ public class GameActivity extends AppCompatActivity implements SelectorFragment.
                 // If article frag is available, we're in two-pane layout...
 
                 // Call a method in the ArticleFragment to update its content
-                articleFrag.demolishStructure(x, y);
+                articleFrag.setDemolish();
             }
             }
         }
@@ -162,7 +162,6 @@ public class GameActivity extends AppCompatActivity implements SelectorFragment.
             // If article frag is available, we're in two-pane layout...
 
             // Call a method in the ArticleFragment to update its content
-            articleFrag.getClickLocation(x, y);
         }
     }
 

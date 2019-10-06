@@ -97,6 +97,9 @@ public class SelectorFragment extends Fragment  {
                     demolishImage.setColorFilter(Color.BLUE);
                     demolishImage.invalidate();
 
+                        callback.demolishBuilding(0,0);
+
+
                 }
                 else
                 {
@@ -146,14 +149,7 @@ public class SelectorFragment extends Fragment  {
     }
 
 
-    public void getClickLocation(int x, int y)
-    {
-        if(demolishMode)
-        {
-            callback.demolishBuilding(x,y);
-        }
 
-    }
 
 
 

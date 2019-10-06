@@ -64,7 +64,9 @@ public class MapFragment extends android.support.v4.app.Fragment {
         this.commericalCallBack = commercialUpdateListener;
     }
 
-
+    public void setDemolish() {
+        mapAdapter.setDemolishion();
+    }
 
 
     public class RecyclerViewItemDecorator extends RecyclerView.ItemDecoration {
