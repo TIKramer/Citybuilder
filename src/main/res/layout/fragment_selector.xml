@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SelectorFragment">
+    tools:context=".Fragments.SelectorFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -37,7 +37,16 @@
 
         />
 
+    <Button
+        android:id="@+id/detailsBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Details"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/selector_recyclerView"
+        app:layout_constraintRight_toRightOf="parent"
 
+        />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/selector_recyclerView"
         android:layout_width="match_parent"
@@ -49,6 +58,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
 
         >
+
 
 
     </android.support.v7.widget.RecyclerView>
