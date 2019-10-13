@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/map_container"
-        android:name="com.kramer.a18882652.citybiolder.Fragments.MapFragment"
+        android:name="com.kramer.a18882652.citybuilder.Fragments.MapFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintRight_toRightOf="parent"
@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/selector_container"
-        android:name="com.kramer.a18882652.citybiolder.Fragments.SelectorFragment"
+        android:name="com.kramer.a18882652.citybuilder.Fragments.SelectorFragment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/userStatusContainer"
-        android:name="com.kramer.a18882652.citybiolder.Fragments.UserStatusFragment"
+        android:name="com.kramer.a18882652.citybuilder.Fragments.UserStatusFragment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"

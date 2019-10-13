@@ -57,7 +57,7 @@
         android:text="changeImage:"
         app:layout_constraintEnd_toStartOf="@+id/imageButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintTop_toBottomOf="@+id/nameInput" />
 
     <TextView
         android:id="@+id/elementName2"
@@ -69,12 +69,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="elementName:"
-        app:layout_constraintEnd_toStartOf="@+id/editText2"
+        app:layout_constraintEnd_toStartOf="@+id/nameInput"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/structureTxt" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/nameInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -98,7 +98,7 @@
         android:src="@android:drawable/ic_menu_camera"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintTop_toBottomOf="@+id/nameInput" />
 
     <Button
         android:id="@+id/saveBtn"
