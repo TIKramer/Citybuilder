@@ -2,7 +2,6 @@ package com.kramer.a18882652.citybiolder.Fragments;
 
 import android.graphics.Color;
 import android.graphics.LightingColorFilter;
-import android.graphics.Rect;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,9 +15,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
-import com.kramer.a18882652.citybiolder.R;
 import com.kramer.a18882652.citybiolder.Adapters.SelectorAdapter;
+import com.kramer.a18882652.citybiolder.Model.Commercial;
+import com.kramer.a18882652.citybiolder.Model.Residential;
+import com.kramer.a18882652.citybiolder.Model.Road;
 import com.kramer.a18882652.citybiolder.Model.StructureData;
+import com.kramer.a18882652.citybiolder.R;
+
+/* the selector fragment display the different strucutures to the user
+  * Has UI controls for the user
+  * Dragging structure from selector fragment onto the map
+  * Demolish and details button
+  * */
 
 
 public class SelectorFragment extends Fragment  {
@@ -30,10 +38,6 @@ public class SelectorFragment extends Fragment  {
     private RecyclerView recView;
     private Spinner s;
     private OnDetailsChangeListener detailsModeListener;
-
-    public SelectorFragment() {
-        // Required empty public constructor
-    }
 
 
     @Override
@@ -54,12 +58,13 @@ public class SelectorFragment extends Fragment  {
         //use  GridLayout manager
         recView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
-        selectorAdapter = new SelectorAdapter(getActivity(), data.getResidential(), 0);
+        selectorAdapter = new SelectorAdapter(getActivity(), data.getResidential(), Residential.class.getSimpleName());
 
         recView.setAdapter(selectorAdapter);
 
 
-        //set adapter
+        //Spinner chooses what structors are displayed to the user
+        //Each selection changes the adapter of the Recycler view
 
         String[] arraySpinner = new String[] {
                 "Residents", "Commerical", "Roads"
@@ -76,15 +81,15 @@ public class SelectorFragment extends Fragment  {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
                 if(position == 0) {
-                    selectorAdapter.setData(data.getResidential(), 0);
+                    selectorAdapter.setData(data.getResidential(), Residential.class.getSimpleName());
                 }
                 else if(position ==1)
                 {
-                    selectorAdapter.setData(data.getCommercial(), 1);
+                    selectorAdapter.setData(data.getCommercial(), Commercial.class.getSimpleName());
                 }
                 else if(position ==2)
                 {
-                    selectorAdapter.setData(data.getRoads(), 2);
+                    selectorAdapter.setData(data.getRoads(), Road.class.getSimpleName());
 
                 }
 
@@ -95,6 +100,13 @@ public class SelectorFragment extends Fragment  {
             }
         });
 
+
+
+        /*
+        When a button is clicked I disable all other UI until a user clicks button again disabling the mode
+        Also notify the appropriate listeners
+
+         */
         final ImageView demolishImage = (ImageView) view.findViewById(R.id.demolishImage);
         demolishImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,9 +119,6 @@ public class SelectorFragment extends Fragment  {
                     demolishImage.setColorFilter(Color.BLUE);
                     demolishImage.invalidate();
                     detailsBtn.setEnabled(false);
-
-
-
 
                 }
                 else
@@ -139,9 +148,6 @@ public class SelectorFragment extends Fragment  {
                     detailsBtn.invalidate();
                     demolishImage.setEnabled(false);
 
-
-
-
                 }
                 else
                 {
@@ -154,7 +160,6 @@ public class SelectorFragment extends Fragment  {
                 }
                 detailsModeListener.detailsChangeListener(detailsMode);
 
-
             }
         });
         return view;
@@ -162,28 +167,9 @@ public class SelectorFragment extends Fragment  {
 
     }
 
-    public class RecyclerViewItemDecorator extends RecyclerView.ItemDecoration {
-        private int spaceInPixels;
 
-        public RecyclerViewItemDecorator(int spaceInPixels) {
-            this.spaceInPixels = spaceInPixels;
-        }
+/* set on click listener */
 
-        @Override
-        public void getItemOffsets(Rect outRect, View view,
-                                   RecyclerView parent, RecyclerView.State state) {
-            outRect.left = spaceInPixels;
-            outRect.right = spaceInPixels;
-            outRect.top = spaceInPixels;
-            outRect.bottom = spaceInPixels;
-
-
-
-
-        }
-
-
-    }
     public void setOnDetailsChangeListener(OnDetailsChangeListener callback) {
         this.detailsModeListener = callback;
     }
@@ -192,16 +178,17 @@ public class SelectorFragment extends Fragment  {
         this.callback = callback;
     }
 
-    // This interface can be implemented by the Activity, parent Fragment,
-    // or a separate test implementation.
+
     public interface OnMapItemClickListener {
-        public void demolishBuilding(boolean value);
+         void demolishBuilding(boolean value);
     }
 
     public interface OnDetailsChangeListener
     {
-        public void detailsChangeListener(boolean change);
+         void detailsChangeListener(boolean change);
     }
+
+
 
 
 

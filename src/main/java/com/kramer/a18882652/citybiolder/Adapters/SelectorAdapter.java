@@ -15,12 +15,18 @@ import com.kramer.a18882652.citybiolder.Model.Structure;
 
 import java.util.List;
 
+/* Ad adapter for the selector fragment
+    This adapter populates the recycle view with the supplied structure.
+        e.g. if A structure of residential structures is placed here
+                A list of residential structures becomes selectable in the selector fragment
+ */
+
 public class SelectorAdapter extends RecyclerView.Adapter<SelectorAdapter.StructureHolder>
 {
 
     private List<? extends Structure> elements;
     private Activity activity;
-    private int structureType;
+    private String structureType;
     public class StructureHolder extends RecyclerView.ViewHolder
     {
         View view;
@@ -37,8 +43,10 @@ public class SelectorAdapter extends RecyclerView.Adapter<SelectorAdapter.Struct
             /*
              * On a long click of a strucutre - start a drag
              * Clip data is the data sent to drag listeners
-             * Create a shadow that represents what the drag looks like(How it appears under the finger)
-             *
+             *  -sending structure type and its postion
+             *      this way the reciver of the drag event is able to look up the structure using StructureData class
+             * Create a shadow that
+             *     How it will appear under the finger)
              *
              * */
             imageView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -64,10 +72,6 @@ public class SelectorAdapter extends RecyclerView.Adapter<SelectorAdapter.Struct
 
         }
 
-
-
-
-
         public void bind(Structure element) {
                 imageView.setImageResource(element.getImageID());
 
@@ -75,8 +79,7 @@ public class SelectorAdapter extends RecyclerView.Adapter<SelectorAdapter.Struct
     }
 
 
-
-    public SelectorAdapter(Activity activity, List<? extends Structure> elements, int structureType)
+    public SelectorAdapter(Activity activity, List<? extends Structure> elements, String structureType)
     {
         this.elements = elements;
         this.activity = activity;
@@ -87,11 +90,7 @@ public class SelectorAdapter extends RecyclerView.Adapter<SelectorAdapter.Struct
     public StructureHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View view;
-
         view = LayoutInflater.from(activity).inflate(R.layout.individual_structure_selector, parent, false);
-
-
-
         return new StructureHolder(view);
 
     }
@@ -111,7 +110,7 @@ public class SelectorAdapter extends RecyclerView.Adapter<SelectorAdapter.Struct
     }
 
 
-    public void setData(List<? extends Structure> elements, int type)
+    public void setData(List<? extends Structure> elements, String type)
     {
         this.structureType = type;
         this.elements = elements;

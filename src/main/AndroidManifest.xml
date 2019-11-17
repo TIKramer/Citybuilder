@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.kramer.a18882652.citybuilder">
+    package="com.kramer.a18882652.citybiolder">
 
     <application
         android:allowBackup="true"
@@ -8,22 +9,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.TitleActivity">
+        <activity android:name="com.kramer.a18882652.citybiolder.Activities.TitleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.SettingsActivity" />
+        <activity android:name="com.kramer.a18882652.citybiolder.Activities.SettingsActivity" />
         <activity
-            android:name=".Testing.TestSettingActivity"
+            android:name="com.kramer.a18882652.citybiolder.Testing.TestSettingActivity"
             android:label="@string/title_activity_test_setting" />
         <activity
-            android:name=".Activities.GameActivity"
+            android:name="com.kramer.a18882652.citybiolder.Activities.GameActivity"
             android:label="@string/title_activity_game" />
         <activity
-            android:name=".Activities.DetailsActivity"
+            android:name="com.kramer.a18882652.citybiolder.Activities.DetailsActivity"
             android:theme="@style/AppTheme.PopUp"
             android:label="@string/title_activity_details"></activity>
     </application>

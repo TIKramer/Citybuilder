@@ -1,10 +1,10 @@
 package com.kramer.a18882652.citybiolder.Model;
 
 import com.kramer.a18882652.citybiolder.Database.GameDataSchema;
-
 public class Commercial implements Structure
     {
         int imageId;
+        int structureID;
         public Commercial()
         {
         }
@@ -25,6 +25,17 @@ public class Commercial implements Structure
         @Override
         public int getCost() {
             return Integer.valueOf("" + SettingsModel.getInstance().getData(GameDataSchema.SettingsTable.Cols.COMM_BUILDING_COST));
+        }
+
+        @Override
+        public int getStructureID() {
+            return structureID;
+        }
+
+        @Override
+        public void setStructureID(int structureID) {
+            this.structureID = structureID;
+
         }
 
     }

@@ -52,7 +52,10 @@ public class GameDataDbHelper extends SQLiteOpenHelper {
             "CREATE TABLE IF NOT EXISTS " + GameDataSchema.GameDataTable.NAME +
                     " (" +
                     GameDataSchema.GameDataTable.Cols.GAME_TIME + " INTEGER, " +
-                    GameDataSchema.GameDataTable.Cols.MONEY + " INTEGER)";
+                    GameDataSchema.GameDataTable.Cols.MONEY + " INTEGER, " +
+                    GameDataSchema.GameDataTable.Cols.NUMBER_OF_RESIDENTIAL + " INTEGER, " +
+                    GameDataSchema.GameDataTable.Cols.NUMBER_OF_COMMERCIAL + " INTEGER, " +
+                    GameDataSchema.GameDataTable.Cols.NUMBER_OF_ROADS + " INTEGER)";
 
     private static final String SQL_CREATE_TABLE_MAP_ELEMENTS =
             "CREATE TABLE IF NOT EXISTS " + GameDataSchema.MapElementsTable.NAME +
@@ -60,6 +63,7 @@ public class GameDataDbHelper extends SQLiteOpenHelper {
                     GameDataSchema.MapElementsTable.Cols.OWNER + " TEXT, " +
                     GameDataSchema.MapElementsTable.Cols.IMAGE + " BLOB, " +
                     GameDataSchema.MapElementsTable.Cols.STRUCTURE_TYPE + " TEXT, " +
-                    GameDataSchema.MapElementsTable.Cols.STRUCTURE_IMAGE_ID + " INTEGER)";
+                    GameDataSchema.MapElementsTable.Cols.STRUCTURE_IMAGE_ID + " INTEGER, " +
+                    GameDataSchema.MapElementsTable.Cols.LOCATION + " INTEGER)";
 
 }

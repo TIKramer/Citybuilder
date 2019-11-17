@@ -18,6 +18,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+
+/* Ad adapter for the settings fragment
+    This adapter populates the recycle view of the settings fragment.
+        This adapter has multiple view types -
+            different view for Interger, strings and double, and also the save button
+                The first three are pretty simular but with different views
+                    Was going to add seperate validation to each view type but havnt got round to it
+ */
 public class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
     private final int TYPE_SAVE =4;
@@ -42,7 +50,10 @@ public class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 @Override
                 public void onClick(View view) {
                     GameDataModel model = GameDataModel.getGameData(activity);
-                    activity.getCurrentFocus().clearFocus();
+                    if(activity.getCurrentFocus()!= null)
+                    {
+                        activity.getCurrentFocus().clearFocus();
+                    }
                   model.setSettings(settings);
                 }
             });
@@ -99,6 +110,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
                     /* When focus is lost temporarly update the data so that it can be later saved when save btn is clicked
+                        As the save button is at the bottom of the view
                         otherwise there would be an issue of the data disappearing when the viewholder gets destoryed
                      * Dont want to actually save here incase user changes their mind and presses back
                      */
@@ -279,17 +291,14 @@ public class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         int viewType = viewHolder.getItemViewType();
 
         if (viewType == Setting.STRING) { // for call layout
-           // ((SettingStringVHolder) viewHolder).saveData();
             ((SettingStringVHolder) viewHolder).bind(settings.get(keys.get(i)));
 
         } else if (viewType == Setting.FLOAT){ // for email layout
-            //((SettingFloatVHolder) viewHolder).saveData();
             ((SettingFloatVHolder) viewHolder).bind(settings.get(keys.get(i)));
 
 
         }
         else if (viewType == Setting.INTERGER){ // for email layout
-            //((SettingIntergerVHolder) viewHolder).saveData();
             ((SettingIntergerVHolder) viewHolder).bind(settings.get(keys.get(i)));
 
 

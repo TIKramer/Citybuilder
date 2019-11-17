@@ -9,7 +9,9 @@ import com.kramer.a18882652.citybiolder.Model.Setting;
 import com.kramer.a18882652.citybiolder.R;
 
 import java.util.Map;
-
+/* forgot to delete this
+       just for testing
+ */
 public class TestSettingActivity extends Activity {
 
     @Override

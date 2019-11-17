@@ -9,7 +9,6 @@ public class Setting
     private String name;
     private int type;
     public Object data;
-    boolean valid;
     boolean lock;
   //  Validator errorMessage;
 

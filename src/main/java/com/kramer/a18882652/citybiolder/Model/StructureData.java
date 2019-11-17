@@ -5,6 +5,12 @@ import com.kramer.a18882652.citybiolder.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/* This class just stores all the types of structures
+    Other methods can call the get methods to get a specified structure
+
+ */
+
+
 public class StructureData {
 
     private static StructureData instance;
@@ -34,25 +40,37 @@ public class StructureData {
 
     private void createRoads()
     {
+        int count = 0;
         for(int id : roadID)
         {
-            roads.add(new Road(id));
+            Road road = new Road(id);
+            road.setStructureID(count);
+            roads.add(road);
+            count ++;
         }
     }
 
     private void createResidential()
     {
+        int count =0;
         for(int id : residentialId)
         {
-            residential.add(new Residential(id));
+            Residential res = new Residential(id);
+            res.setStructureID(count);
+            residential.add(res);
+            count ++;
         }
     }
 
     private void createCommercial()
     {
-        for(int id : residentialId)
+        int count = 0;
+        for(int id : commericalId)
         {
-            commercial.add(new Commercial(id));
+            Commercial com = new Commercial(id);
+            com.setStructureID(count);
+            commercial.add(com);
+            count ++;
         }
     }
 
@@ -95,21 +113,25 @@ public class StructureData {
     }
 
 
-    public Structure getByNameAndId(int type, int id)
+    public Structure getByNameAndId(String type, int id)
     {
         Structure structure = null;
-        if(type == 0)
+        if(type.equals(Residential.class.getSimpleName()))
             {
                 structure = getResidential(id);
             }
-            if(type ==1)
+        else if(type.equals(Commercial.class.getSimpleName()))
             {
                 structure = getCommercial(id);
             }
-            if(type ==2)
+       else if(type.equals(Road.class.getSimpleName()))
             {
                 structure = getRoad(id);
             }
+            else if(type.equals(DefaultStructure.class.getSimpleName()))
+        {
+            structure = getDefault();
+        }
             return structure;
     }
 

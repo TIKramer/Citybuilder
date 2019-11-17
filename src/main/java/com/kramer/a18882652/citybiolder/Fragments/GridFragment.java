@@ -1,7 +1,5 @@
 package com.kramer.a18882652.citybiolder.Fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;

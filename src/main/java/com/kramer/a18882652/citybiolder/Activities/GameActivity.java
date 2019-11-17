@@ -4,25 +4,28 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
-import com.kramer.a18882652.citybiolder.Database.GameDataSchema;
 import com.kramer.a18882652.citybiolder.Adapters.MapAdapter;
-import com.kramer.a18882652.citybiolder.Fragments.MapFragment;
+import com.kramer.a18882652.citybiolder.Database.GameDataSchema;
+import com.kramer.a18882652.citybiolder.Fragments.UserStatusFragment;
 import com.kramer.a18882652.citybiolder.Model.GameDataModel;
+import com.kramer.a18882652.citybiolder.Model.SettingsModel;
+import com.kramer.a18882652.citybiolder.Fragments.MapFragment;
 import com.kramer.a18882652.citybiolder.R;
 import com.kramer.a18882652.citybiolder.Fragments.SelectorFragment;
-import com.kramer.a18882652.citybiolder.Model.SettingsModel;
-import com.kramer.a18882652.citybiolder.Fragments.UserStatusFragment;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
+/* This is the main activity where all the game logic takes place */
+
 
 public class GameActivity extends AppCompatActivity implements SelectorFragment.OnMapItemClickListener, MapAdapter.StructureUpdateListener, MapAdapter.PlayerCashCallBack, SelectorFragment.OnDetailsChangeListener, LifecycleObserver  {
 
@@ -31,13 +34,14 @@ public class GameActivity extends AppCompatActivity implements SelectorFragment.
     private double employmentRate;
     private int population;
     private int cash;
-    int salary;
-    double taxRate;
-    int serviceCost;
-    int familySize;
-    int nResidential;
-    int nCommerical;
-    int shopSize;
+   private int salary;
+    private double taxRate;
+    private int serviceCost;
+   private int familySize;
+    private int nResidential;
+    private int nCommerical;
+    private int nRoads;
+    private int shopSize;
    private Timer timer;
 
     private UserStatusFragment userStatusFragment;
@@ -49,10 +53,10 @@ public class GameActivity extends AppCompatActivity implements SelectorFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         intialValues();
+        getSupportActionBar().setTitle("City: " + SettingsModel.getInstance().getData(GameDataSchema.SettingsTable.Cols.CITY_NAME));
+
         GameDataModel model = GameDataModel.getGameData(this);
-        if(model.getUserMoney() > 0) {
-            cash = model.getUserMoney();
-        }
+        cash = model.getUserMoney();
         gameTime = model.getGameTime();
         FragmentManager fm = getSupportFragmentManager();
         MapFragment mapFrag = (MapFragment) fm.findFragmentById(R.id.map_container);
@@ -75,12 +79,26 @@ public class GameActivity extends AppCompatActivity implements SelectorFragment.
             userStatusFragment = new UserStatusFragment();
             fm.beginTransaction().add(R.id.userStatusContainer,userStatusFragment).commit();
         }
-        createTimer();
+        //Extra saftey check for timer - must always cancel timer
+        //If theres already one running two will be created
+
+        if(timer!=null) {
+            timer.cancel();
+            timer =null;
+        }
+        if(timer == null) {
+            createTimer();
+        }
+
 
     }
-
+//This creates a timer that increments time every second
+    //After every second it does the calculation for and sends it to display on the user status fragment
+    //It then updates the fields in the fragments to display
     private void createTimer()
     {
+
+
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask()
         {
@@ -94,29 +112,30 @@ public class GameActivity extends AppCompatActivity implements SelectorFragment.
                     public void run() {
                         userStatusFragment.updateTime(gameTime);
                         //     userStatusFragment.updateCash(nResidential);
-
-                        if (gameTime % 1 == 0) {
-                            population = familySize * nResidential;
-                            if (population > 0) {
-                                employmentRate = Math.min(1, nCommerical * shopSize / population);
-                            } else
-                                employmentRate = 0;
-                            int income = 0;
-                            income += (Integer) population * (employmentRate * salary * taxRate - serviceCost);
-                            cash += income;
-                            if (cash < 0) {
-                                gameOver();
-                            }
-                            userStatusFragment.updateCash(cash);
-                            userStatusFragment.updateIncome(income);
-
+                        population = familySize * nResidential;
+                        if(population > 0)
+                            employmentRate = Math.min(1, (double)(nCommerical * shopSize) / (double)population);
+                        else
+                            employmentRate = 0;
+                        int income = 0;
+                        income += population * (employmentRate * salary * taxRate - serviceCost);
+                        cash += income;
+                        userStatusFragment.updateCash(cash);
+                        userStatusFragment.updateIncome(income);
+                        userStatusFragment.updatePopulation(population);
+                        userStatusFragment.updateEmploymentRate(employmentRate * 100);
+                        if(cash < 0)
+                        {
+                            gameOver();
                         }
+
                     }
                 });
 
 
             }
         }, 1000, 1000);
+
     }
     private void gameOver() {
         timer.cancel();
@@ -131,17 +150,15 @@ public class GameActivity extends AppCompatActivity implements SelectorFragment.
                 })
 
 
+
+
                 .show();
     }
+    //When the class starts load these values in from the database.
     private  void intialValues()
     {
-
         SettingsModel settings = SettingsModel.getInstance();
-        if(cash == 0) {
-            cash = Integer.valueOf("" + settings.getData(GameDataSchema.SettingsTable.Cols.INITIAL_MONEY));
-        }
-
-         taxRate = Double.valueOf("" +settings.getData( GameDataSchema.SettingsTable.Cols.TAX_RATE));
+        taxRate = Double.valueOf("" +settings.getData( GameDataSchema.SettingsTable.Cols.TAX_RATE));
         familySize = Integer.valueOf("" +settings.getData( GameDataSchema.SettingsTable.Cols.FAMILY_SIZE));
         salary = Integer.valueOf("" +settings.getData( GameDataSchema.SettingsTable.Cols.SALARY));
         serviceCost = Integer.valueOf("" +settings.getData( GameDataSchema.SettingsTable.Cols.SERVICE_COST));
@@ -150,13 +167,15 @@ public class GameActivity extends AppCompatActivity implements SelectorFragment.
     }
 
 
+    //This just puts reference to the callbacks into the fragments
+//Could later set call back to one set for each fragment
+
     @Override
     public void onAttachFragment(android.support.v4.app.Fragment fragment) {
         if (fragment instanceof SelectorFragment) {
-            SelectorFragment headlinesFragment = (SelectorFragment) fragment;
-            headlinesFragment.setOnMapItemClickListener(this);
-            headlinesFragment.setOnDetailsChangeListener(this);
-          //  headlinesFragment.set
+            SelectorFragment selectorFragment = (SelectorFragment) fragment;
+            selectorFragment.setOnMapItemClickListener(this);
+            selectorFragment.setOnDetailsChangeListener(this);
         }
         else if(fragment instanceof MapFragment)
         {
@@ -170,7 +189,7 @@ public class GameActivity extends AppCompatActivity implements SelectorFragment.
     }
 
 
-
+//Listeners and call backs
 
 
     @Override
@@ -187,10 +206,9 @@ public class GameActivity extends AppCompatActivity implements SelectorFragment.
         }
 
 
-
     @Override
     public void roadsUpdateListener(int x) {
-        nResidential = x;
+        nRoads = x;
     }
 
     @Override
@@ -207,22 +225,7 @@ public class GameActivity extends AppCompatActivity implements SelectorFragment.
         return cash;
     }
 
-    @Override
-    protected void onResume() {
-        // call the superclass method first
-        super.onResume();
-        if(timer == null) {
-            createTimer();
-        }
-    }
 
-    @Override
-    protected void onStop() {
-        // call the superclass method first
-        super.onStop();
-        timer.cancel();
-        timer = null;
-    }
 
     @Override
     public void detailsChangeListener(boolean change)
@@ -236,18 +239,11 @@ public class GameActivity extends AppCompatActivity implements SelectorFragment.
         }
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        // Save UI state changes to the savedInstanceState.
-        // This bundle will be passed to onCreate if the process is
-        // killed and restarted.
-        savedInstanceState.putInt("cash", cash);
-        savedInstanceState.putInt("time", gameTime);
-        //savedInstanceState.putInt("income", 1);
-       // savedInstanceState.putString("MyString", "Welcome back to Android");
-        // etc.
-    }
+    /*Below is only saving and resuming parts of code.
+//Everything here works in different ways of stopping the app besides a complete crash hitting the stop button
+// some may be redundant
+Once a timer is cancled it cant be restarted so also must set it to null
+*/
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -256,6 +252,7 @@ public class GameActivity extends AppCompatActivity implements SelectorFragment.
         model.setGameTime(gameTime);
         if(timer!=null) {
             timer.cancel();
+            timer =null;
         }
     }
 
@@ -275,7 +272,68 @@ public class GameActivity extends AppCompatActivity implements SelectorFragment.
 
         cash = model.getUserMoney();
         gameTime = model.getGameTime();
+        if(timer == null) {
+            createTimer();
+        }
+
+
     }
+
+    @Override
+    protected void onResume() {
+        // call the superclass method first
+        super.onResume();
+        if(timer == null) {
+            createTimer();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        GameDataModel model = GameDataModel.getGameData(this);
+        model.setUserMoney(cash);
+        model.setGameTime(gameTime);
+        model.setStructureNumber(nResidential, nCommerical, nRoads);
+
+        if(timer!=null) {
+            timer.cancel();
+            timer =null;
+        }
+        model.saveGameData();
+        model.saveSettings();
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        GameDataModel model = GameDataModel.getGameData(this);
+        model.setUserMoney(cash);
+        model.setGameTime(gameTime);
+        model.setStructureNumber(nResidential, nCommerical, nRoads);
+
+        if(timer!=null) {
+            timer.cancel();
+            timer =null;
+        }
+        model.saveGameData();
+        model.saveSettings();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putInt("cash", cash);
+        savedInstanceState.putInt("time", gameTime);
+
+
+    }
+
+
+
+
+
+
+
 
 
 

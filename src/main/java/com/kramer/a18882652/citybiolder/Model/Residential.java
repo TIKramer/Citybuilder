@@ -1,10 +1,10 @@
 package com.kramer.a18882652.citybiolder.Model;
 
 import com.kramer.a18882652.citybiolder.Database.GameDataSchema;
-
 public class Residential implements Structure
 {
     int imageId;
+    int structureID;
     public Residential()
     {
 
@@ -26,5 +26,15 @@ public class Residential implements Structure
     @Override
     public int getCost() {
         return Integer.valueOf("" + SettingsModel.getInstance().getData(GameDataSchema.SettingsTable.Cols.HOUSE_BUILDING_COST));
+    }
+    @Override
+    public int getStructureID() {
+        return structureID;
+    }
+
+    @Override
+    public void setStructureID(int structureID) {
+        this.structureID = structureID;
+
     }
 }

@@ -10,11 +10,34 @@ public class MapElement
     String ownerName;
 
 
-    public MapElement(Structure struct, Bitmap image, String ownerName)
+
+    public MapElement(Structure struct, Bitmap image)
     {
         structure = struct;
         this.image = image;
-        this.ownerName = ownerName;
+    }
+
+    public void setOwnerName(String name)
+    {
+        ownerName = name;
+    }
+
+    public String getOwnerName()
+    {
+        String name;
+        if(ownerName !=null && !(ownerName.length() >0))
+        {
+            name = structure.getClass().getSimpleName();
+
+        }
+        else
+        {
+            name = ownerName;
+
+        }
+        return name;
+
+
     }
     public boolean isBuildable()
     {
@@ -36,5 +59,10 @@ public class MapElement
 
     public Bitmap getImage() {
         return image;
+    }
+
+    public void reloadData()
+    {
+
     }
 }

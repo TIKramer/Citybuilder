@@ -4,5 +4,7 @@ public interface Structure {
     public int getImageID();
     public void setImageID(int imageID);
     public int getCost();
+    public int getStructureID();
+    public void setStructureID(int structureID);
 
 }

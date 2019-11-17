@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CityBiolder</string>
+    <string name="app_name">City Builder</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->

@@ -46,7 +46,7 @@ public class SettingCursor extends CursorWrapper {
         model.addData(SettingsTable.Cols.ROAD_BUILDING_COST, roadBuildingcost);
 
 
-
+        //Indicate the settings are locked and cant be changed by the user.
         model.lock(SettingsTable.Cols.INITIAL_MONEY);
         model.lock(SettingsTable.Cols.MAP_WIDTH);
         model.lock(SettingsTable.Cols.MAP_HEIGHT);

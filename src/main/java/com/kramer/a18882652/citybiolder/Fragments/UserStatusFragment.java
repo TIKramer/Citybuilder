@@ -1,9 +1,6 @@
 package com.kramer.a18882652.citybiolder.Fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +46,17 @@ public class UserStatusFragment extends android.support.v4.app.Fragment {
         text.setText("Time: " + time);
     }
 
+    public void updatePopulation(int population)
+    {
+        TextView text = (TextView) getActivity().findViewById(R.id.populationTxt);
+        text.setText("Population: " + population);
+    }
+
+    public void updateEmploymentRate(double employmentRate)
+    {
+        TextView text = (TextView) getActivity().findViewById(R.id.employmentTxt);
+        text.setText("Employment Rate: " + employmentRate + "%");
+    }
 
 
 }
