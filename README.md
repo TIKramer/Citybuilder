@@ -35,7 +35,7 @@ If the players income reaches 0 the game is over, the play can then only view th
 <img src="https://github.com/TIKramer/Citybuilder/blob/master/images/housePlacement.png" width="250" height="425" />
 
 </br>
-Details of each strucutre is customizable.The player can upload their own images using the camera app and rename the strucuture.
+Details of each structure is customizable.The player can upload their own images using the camera app and rename the structure.
 
 <img src="https://github.com/TIKramer/Citybuilder/blob/master/images/DetailsPage.png" width="250" height="425" />
 
