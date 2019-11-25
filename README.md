@@ -2,13 +2,13 @@
 
 City Builder android game.
 This android app was developed for an assigment at Curtin University.
-It makes use of
-  -Fragments
-  -Activity communication
-  -Heavy use of Custom Recycler Views
-  -App to app communcation
-  -Database storage and loading
-  -Saving state.
+It makes use of</br>
+  -Fragments</br>
+  -Activity communication</br>
+  -Heavy use of Custom Recycler Views</br>
+  -App to app communcation</br>
+  -Database storage and loading</br>
+  -Saving state.</br>
 
 <p float="left">
 <img src="https://github.com/TIKramer/Citybuilder/blob/master/images/homeScreen.png" width="250" height="425" />
@@ -18,7 +18,7 @@ Before starting a game a player can either press start - launching the game with
 <img src="https://github.com/TIKramer/Citybuilder/blob/master/images/settingsScreen.png" width="250" height="425" />
 
 The gameplay involves the player using their cash to place different types of structures:
-Roads</br>
+</br>Roads</br>
 Commierical Buildings </br>
 Residential Buildings </br>
 </br>
