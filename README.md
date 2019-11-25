@@ -11,14 +11,14 @@ It makes use of
   -Saving state.
 
 <p float="left">
-<img src="https://github.com/TIKramer/Citybuilder/blob/master/images/gameScreen.png" width="200" height="400" />
+<img src="https://github.com/TIKramer/Citybuilder/blob/master/images/homeScreen.png" width="200" height="400" />
 </p>
 Our client was the City of Gosnells,the proposed application was to be designed to encourage businesses to complete the security checklist and improve the security of the business if needed.
 The goal being improving checklist participants by increasing ease of use and accessibility, thereby improving business security to reduce crime and minimise the effects of any potential crime of the business.
 
 </br>
 
-<img src="https://github.com/TIKramer/BusinessSecurityCheckList/blob/master/Screenshots/checklist.png" width="200" height="400" />
+<img src="https://github.com/TIKramer/Citybuilder/blob/master/images/gameScreen.png" width="200" height="400" />
 
 </br>
 The application questions were fed from a URL in the form of a JSON file provided by the City of Gosnells, this JSON file was loaded through a connection to their website within the application. Doing this allowed the questions to be updated by the City of Gosnells without the need to update the application.
