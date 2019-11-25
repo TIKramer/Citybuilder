@@ -11,26 +11,33 @@ It makes use of
   -Saving state.
 
 <p float="left">
-<img src="https://github.com/TIKramer/Citybuilder/blob/master/images/homeScreen.png" width="300" height="400" />
+<img src="https://github.com/TIKramer/Citybuilder/blob/master/images/homeScreen.png" width="250" height="425" />
 </p>
-Our client was the City of Gosnells,the proposed application was to be designed to encourage businesses to complete the security checklist and improve the security of the business if needed.
-The goal being improving checklist participants by increasing ease of use and accessibility, thereby improving business security to reduce crime and minimise the effects of any potential crime of the business.
+Before starting a game a player can either press start - launching the game with default settings. Or launch the settings page which contains all the changable options- some options are not changeable usless starting a new game.
 
-</br>
+<img src="https://github.com/TIKramer/Citybuilder/blob/master/images/settingsScreen.png" width="250" height="425" />
 
-<img src="https://github.com/TIKramer/Citybuilder/blob/master/images/gameScreen.png" width="300" height="400" />
-
-</br>
 The gameplay involves the player using their cash to place different types of structures:
 Roads</br>
 Commierical Buildings </br>
 Residential Buildings </br>
+</br>
 
-Buildings must be placed adjacent to a road.
-The player must balance the cash cost of buildings, maintance, tax and other fees while earning an income.
-If the players income reaches 0 the game is over, the play can then only view the world but can no longer interact with it.
+<img src="https://github.com/TIKramer/Citybuilder/blob/master/images/gameScreen.png" width="250" height="425" />
 
 </br>
+
+
+Buildings must be placed adjacent to a road.
+The player must balance the cash cost of buildings, maintenance, tax and other fees while earning an income.
+If the players income reaches 0 the game is over, the play can then only view the world but can no longer interact with it.
+</br>
+<img src="https://github.com/TIKramer/Citybuilder/blob/master/images/housePlacement.png" width="250" height="425" />
+
+</br>
+Details of each strucutre is customizable.The player can upload their own images using the camera app and rename the strucuture.
+
+<img src="https://github.com/TIKramer/Citybuilder/blob/master/images/DetailsPage.png" width="250" height="425" />
 
 
 </br>
